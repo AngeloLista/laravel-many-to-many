@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Tag;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -32,12 +33,13 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()  
+    public function create()
     {
         $categories = Category::all();
         $post = new Post();
+        $tags = Tag::all();
 
-        return view('admin.posts.create', compact('post', 'categories'));
+        return view('admin.posts.create', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -52,7 +54,8 @@ class PostController extends Controller
             'title' => 'required|string|unique:posts|max:50',
             'content' => 'required|string',
             'image' => 'nullable|url|max:255',
-            'category_id' => 'nullable|exists:categories,id'
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|exists:tags,id',
         ]);
 
         $data = $request->all();
@@ -83,8 +86,9 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post', 'categories'));
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -102,6 +106,7 @@ class PostController extends Controller
             'content' => 'required|string',
             'image' => 'nullable|url|max:255',
             'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|exists:tags,id',
         ]);
 
         $data = $request->all();
