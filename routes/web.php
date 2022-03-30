@@ -21,14 +21,17 @@ Route::middleware('auth')
 ->namespace('Admin')
 ->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/posts/by_category', 'PostsByCategoryController@index')->name('posts.by_category');
     
     Route::resource('posts', 'PostController');
+    Route::resource('categories', 'CategoryController');
+    
+    Route::get('/{any}', function () {
+        abort(404);
+    })->where('any', '.*');
 });
 
-
+// VueJS Routes
 Route::get('{any?}', function () {
     return view('guest.home');
 })->where('any', '.*');
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

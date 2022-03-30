@@ -4,8 +4,11 @@
     <div class="container">
         <header class="d-flex justify-content-between align-items-center">
             <h1>I miei post</h1>
-            {{-- Create --}}
-            <a class="btn btn-warning mr-1" href="{{ route('admin.posts.create') }}">Create</a>
+            <div>
+              <a class="btn btn-dark mr-1"href="{{ route('admin.posts.by_category') }}">Posts by Category</a>
+              {{-- Create --}}
+              <a class="btn btn-warning mr-1" href="{{ route('admin.posts.create') }}">Create</a>
+            </div>
         </header>
 
         <table class="table">
@@ -35,7 +38,7 @@
                     </td>
                     {{-- Created At --}}
                     <td>{{ $post->created_at }}</td>
-                    <td class="d-flex justify-content-center align-items-center">
+                    <td class="d-flex justify-content-end align-items-center">
                       {{-- Details --}}
                       <a class="btn btn-secondary mr-1" href="{{ route('admin.posts.show', $post->id) }}">Details</a>
                       {{-- Edit --}}
@@ -54,9 +57,12 @@
             </tbody>
           </table>
 
+          @if ($posts->hasPages())
           <div class="d-flex justify-content-center">
             {!! $posts->links() !!}
           </div>
+          @endif
+
     </div>
 @endsection
 

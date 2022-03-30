@@ -1,9 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 use App\Models\Category;
-use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -14,7 +19,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -24,7 +31,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $category = new Category();
+        $categories = Category::all();
+
+        return view('admin.categories.create', compact('category', 'categories'));
     }
 
     /**
@@ -35,7 +45,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'label' => 'required|string|unique:categories',
+            'color' => 'required|string|exists:categories,color',
+        ]);
+
+        $data = $request->all();
+
+        $category = new Category();
+        $category->fill($data);
+        $category->save();
+
+        return redirect()->route('admin.categories.show', $category->id);
     }
 
     /**
@@ -46,7 +67,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('admin.categories.show', compact('category'));
     }
 
     /**
@@ -57,7 +78,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $categories = Category::all();
+
+        return view('admin.categories.edit', compact('category', 'categories'));
     }
 
     /**
@@ -69,7 +92,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'label' => ['required','string', Rule::unique('categories')->ignore($category->id)],
+            'color' => 'required|string|exists:categories,color'
+        ]);
+
+        $data = $request->all();
+
+        $category->update($data);
+
+        return redirect()->route('admin.categories.show', $category->id);
     }
 
     /**
@@ -80,6 +112,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        
+        return redirect()->route('admin.categories.index')->with('message', 'Category deleted successfully.')->with('type'. 'success');
     }
 }
