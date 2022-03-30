@@ -16,6 +16,7 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
+                <th scope="col">Author</th>
                 <th scope="col">Category</th>
                 <th scope="col">Created at</th>
                 <th scope="col"></th>
@@ -29,6 +30,12 @@
                     <th scope="row">{{ $post->id }}</th>
                     {{-- Title --}}
                     <td>{{ $post->title }}</td>
+                    {{-- Author --}}
+                    <td>
+                    @if ($post->author)
+                      {{ $post->author->name }}
+                    @endif
+                    </td>
                     {{-- Category --}}
                     <td>
                       @if($post->category)
