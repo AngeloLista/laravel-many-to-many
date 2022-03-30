@@ -66,6 +66,17 @@
                     </div>
                 @enderror
             </div>
+            {{-- Tags --}}
+            <div class="col-12">
+                <hr>
+                    @foreach ($tags as $tag)
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="tag-{{ $tag->id }}" value="{{ $tag->id }}" name="tags[]">
+                        <label class="form-check-label" for="tag-{{ $tag->id }}">{{ $tag->label }}</label>
+                    </div>
+                    @endforeach
+                <hr>
+            </div>
             
             <div class="d-flex justify-content-end col-12">
                 {{-- Back to List --}}
