@@ -3,7 +3,7 @@
 @section('content')
     <section id="category-show" class="container d-flex justify-content-center align-items-center">
         <div class="content row w-75">
-            {{-- Title --}}
+            {{-- Label --}}
             <div class="col-12 mb-3">
                 <h1>{{ $category->label }}</h1>
             </div>
