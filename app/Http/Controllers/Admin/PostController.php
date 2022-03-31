@@ -137,6 +137,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // Prima elimino eventuli relazioni:
+        if (count($post->tags)) $post->tags()->detach();
+        // Poi elimino il post:
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('message', "$post->title has been successfully deleted")->with('type', 'success');
