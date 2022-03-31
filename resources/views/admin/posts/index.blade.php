@@ -18,6 +18,7 @@
                 <th scope="col">Title</th>
                 <th scope="col">Author</th>
                 <th scope="col">Category</th>
+                <th scope="col">Tags</th>
                 <th scope="col">Created at</th>
                 <th scope="col"></th>
               </tr>
@@ -42,6 +43,13 @@
                       <span class="badge badge-pill badge-{{$post->category->color}}">{{ $post->category->label }}</span>
                       @else - 
                       @endif
+                    </td>
+                    {{-- Tags --}}
+                    <td>
+                      @forelse($post->tags as $tag)
+                        <span class="badge" style="background-color: {{ $tag->color }}; color: white;">{{ $tag->label }}</span>
+                        @empty <span>-</span>
+                      @endforelse
                     </td>
                     {{-- Created At --}}
                     <td>{{ $post->created_at }}</td>
