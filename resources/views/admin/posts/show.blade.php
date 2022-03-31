@@ -11,12 +11,30 @@
             <div class="col-10 mb-3">{{ $post->content }}</div>
             {{-- Image --}}
             <div class="col-2 mb-3"><img class="img-fluid" src="{{ $post->image }}" alt="{{ $post->slug }}"></div>
+            {{-- Author --}}
+            @if ($post->author)
+                <div class="col-12 d-flex justify-content-end">
+                    <address>
+                        Author: {{ $post->author->name }}
+                    </address>
+                </div>
+            @endif
             {{-- Category --}}
-            <address class="col-12">
+            <address class="col-12 d-flex justify-content-end">
                 @if($post->category)
                 <span class="badge badge-pill badge-{{$post->category->color}}">{{ $post->category->label }}</span>
                 @else - 
-                @endif</address>
+                @endif
+            </address>
+            {{-- Tags --}}
+                <div class="col-12">
+                    <span>Tags: </span>
+                    @forelse($post->tags as $tag)
+                        <span class="badge" style="background-color: {{ $tag->color }}; color: white;">{{ $tag->label }}</span>
+                        @empty <span>-</span>
+                    @endforelse
+                </div>
+
             <div class="col-12 d-flex justify-content-end">
                 {{-- Edit --}}
                 <a class="btn btn-primary mr-1" href="{{ route('admin.posts.edit', $post) }}">Edit</a>
