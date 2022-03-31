@@ -5,7 +5,7 @@
         <header class="d-flex justify-content-between align-items-center">
             <h1>I miei post</h1>
             <div>
-              <a class="btn btn-dark mr-1"href="{{ route('admin.posts.by_category') }}">Posts by Category</a>
+              <a class="btn btn-light mr-1"href="{{ route('admin.posts.by_category') }}">Posts by Category</a>
               {{-- Create --}}
               <a class="btn btn-warning mr-1" href="{{ route('admin.posts.create') }}">Create</a>
             </div>
@@ -47,7 +47,9 @@
                     {{-- Tags --}}
                     <td>
                       @forelse($post->tags as $tag)
-                        <span class="badge" style="background-color: {{ $tag->color }}; color: white;">{{ $tag->label }}</span>
+                        <a href="{{ route('admin.tags.show', $tag->id) }}">
+                          <span class="badge" style="background-color: {{ $tag->color }}; color: white;">{{ $tag->label }}</span>
+                        </a>
                         @empty <span>-</span>
                       @endforelse
                     </td>
