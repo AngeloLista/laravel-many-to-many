@@ -63,6 +63,9 @@ class PostController extends Controller
 
         $post = Post::create($data);
 
+        // Tag Checkboxes
+        if (array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
+
         return redirect()->route('admin.posts.show', $post);
     }
 
@@ -88,7 +91,10 @@ class PostController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
+        // Tag Checkboxes
+        $post_tags_ids = $post->tags->pluck('id')->toArray(); //id dei tags relazionati col il post specifico
+
+        return view('admin.posts.edit', compact('post', 'categories', 'tags', 'post_tags_ids'));
     }
 
     /**
@@ -115,6 +121,10 @@ class PostController extends Controller
         $post->fill($data);
 
         $post->save();
+
+        // Tags Checkboxes
+        if (!array_key_exists('tags', $data)) $post->tags()->detach();
+        else $post->tags()->sync($data['tags']);
 
         return redirect()->route('admin.posts.show', $post->id);
     }
