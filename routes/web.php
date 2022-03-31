@@ -16,20 +16,22 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::middleware('auth')
-->prefix('admin')
-->name('admin.')
-->namespace('Admin')
-->group(function () {
-    Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/posts/by_category', 'PostsByCategoryController@index')->name('posts.by_category');
-    
-    Route::resource('posts', 'PostController');
-    Route::resource('categories', 'CategoryController');
-    
-    Route::get('/{any}', function () {
-        abort(404);
-    })->where('any', '.*');
-});
+    ->prefix('admin')
+    ->name('admin.')
+    ->namespace('Admin')
+    ->group(function () {
+        Route::get('/', 'HomeController@index')->name('home');
+        Route::get('/posts/by_category', 'PostsByCategoryController@index')->name('posts.by_category');
+        // Route::get('/posts/by_tag', 'PostsByTagController@index')->name('posts.by_tag');
+
+        Route::resource('posts', 'PostController');
+        Route::resource('categories', 'CategoryController');
+        Route::resource('tags', 'TagController');
+
+        Route::get('/{any}', function () {
+            abort(404);
+        })->where('any', '.*');
+    });
 
 // VueJS Routes
 Route::get('{any?}', function () {
