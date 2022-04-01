@@ -72,6 +72,7 @@ class PostController extends Controller
         // Tag Checkboxes
         if (array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
 
+        dd($post);
         return redirect()->route('admin.posts.show', $post);
     }
 
@@ -116,7 +117,7 @@ class PostController extends Controller
         $request->validate([
             'title' => ['required', 'string', Rule::unique('posts')->ignore($post->id), 'max:50'],
             'content' => 'required|string',
-            'image' => 'nullable|url|max:255',
+            'image' => 'nullable|image',
             'category_id' => 'nullable|exists:categories,id',
             'tags' => 'nullable|exists:tags,id',
         ]);
@@ -124,9 +125,14 @@ class PostController extends Controller
         $data = $request->all();
 
         $data['slug'] = Str::slug($request->title, '-');
-        $post->fill($data);
 
-        $post->save();
+        // Image file
+        if (array_key_exists('image', $data)) {
+            if ($post->image) Storage::delete($post->image);
+            $data['image'] = Storage::put('post_images', $data['image']);
+        }
+
+        $post->update($data);
 
         // Tags Checkboxes
         if (!array_key_exists('tags', $data)) $post->tags()->detach();
