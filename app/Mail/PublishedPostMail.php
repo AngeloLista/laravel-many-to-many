@@ -11,14 +11,15 @@ class PublishedPostMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    private $post;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($post)
     {
-        //
+        $this->post = $post;
     }
 
     /**
@@ -28,6 +29,7 @@ class PublishedPostMail extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.posts.published');
+        $url = url('/admin/posts/' . $this->post->id);
+        return $this->markdown('mails.posts.published', ['post' => $this->post, 'url' => $url]);
     }
 }

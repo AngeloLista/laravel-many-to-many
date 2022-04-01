@@ -76,7 +76,7 @@ class PostController extends Controller
         if (array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
 
         // Sending notification mail
-        $mail = new PublishedPostMail();
+        $mail = new PublishedPostMail($post);
         $recipient = Auth::user()->email;
         Mail::to($recipient)->send($mail);
 
