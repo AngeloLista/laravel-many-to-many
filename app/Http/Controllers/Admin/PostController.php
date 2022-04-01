@@ -10,7 +10,7 @@ use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -54,7 +54,8 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|string|unique:posts|max:50',
             'content' => 'required|string',
-            'image' => 'nullable|url|max:255',
+            // 'image' => 'nullable|url|max:255',   Image Url Validation
+            'image' => 'nullable|image',
             'category_id' => 'nullable|exists:categories,id',
             'tags' => 'nullable|exists:tags,id',
         ]);
@@ -63,10 +64,13 @@ class PostController extends Controller
         $data['slug'] = Str::slug($request->title, '-');
         $data['user_id'] = Auth::id();
 
+
         $post = Post::create($data);
 
         // Tag Checkboxes
         if (array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
+        // Image file
+        if (array_key_exists('image', $data)) $data['image'] = Storage::put('post_images', $data['image']);
 
         return redirect()->route('admin.posts.show', $post);
     }

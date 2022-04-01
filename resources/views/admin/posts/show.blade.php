@@ -10,7 +10,7 @@
             {{-- Content --}}
             <div class="col-10 mb-3">{{ $post->content }}</div>
             {{-- Image --}}
-            <div class="col-2 mb-3"><img class="img-fluid" src="{{ $post->image }}" alt="{{ $post->slug }}"></div>
+            <div class="col-2 mb-3"><img class="img-fluid" src="{{ asset("storage/$post->image") }}" alt="{{ $post->slug }}"></div>
             {{-- Author --}}
             @if ($post->author)
                 <div class="col-12 d-flex justify-content-end">

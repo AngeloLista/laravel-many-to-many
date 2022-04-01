@@ -10,3 +10,5 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+app/Http/Controllers/Admin/PostsByTagController.php
+resources/views/admin/posts/by_tag.blade.php
