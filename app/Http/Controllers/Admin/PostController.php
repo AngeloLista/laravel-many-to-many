@@ -72,7 +72,6 @@ class PostController extends Controller
         // Tag Checkboxes
         if (array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
 
-        dd($post);
         return redirect()->route('admin.posts.show', $post);
     }
 
@@ -151,6 +150,8 @@ class PostController extends Controller
     {
         // Prima elimino eventuli relazioni:
         if (count($post->tags)) $post->tags()->detach();
+        // Poi elimino eventuali file contenuti nel post:
+        if ($post->image) Storage::delete($post->image);
         // Poi elimino il post:
         $post->delete();
 
