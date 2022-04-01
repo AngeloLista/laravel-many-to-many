@@ -64,13 +64,13 @@ class PostController extends Controller
         $data['slug'] = Str::slug($request->title, '-');
         $data['user_id'] = Auth::id();
 
+        // Image file
+        if (array_key_exists('image', $data)) $data['image'] = Storage::put('post_images', $data['image']);
 
         $post = Post::create($data);
 
         // Tag Checkboxes
         if (array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
-        // Image file
-        if (array_key_exists('image', $data)) $data['image'] = Storage::put('post_images', $data['image']);
 
         return redirect()->route('admin.posts.show', $post);
     }
