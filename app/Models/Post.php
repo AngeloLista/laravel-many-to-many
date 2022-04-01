@@ -11,12 +11,12 @@ class Post extends Model
         'content',
         'image',
         'slug',
-        'category_id'
+        'category_id',
+        'user_id',
     ];
 
     public function category()
     {
-
         return $this->belongsTo('App\Models\Category');
     }
 
@@ -27,6 +27,6 @@ class Post extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('App\Models\Tag');
+        return $this->belongsToMany('App\Models\Tag')->withTimestamps();
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 use App\User;
 
 use Illuminate\Database\Seeder;
@@ -15,7 +16,7 @@ class UserSeeder extends Seeder
         $user = new User();
         $user->name = 'Angelo';
         $user->email = 'abstractplayer@gmail.com';
-        $user->password = '$2y$10$7/FSVI0JcOglJF720i0Mnu1U.hqSPKS0fmZocgNR/Vxaqk03rhhhW';
+        $user->password = bcrypt('password');
         $user->save();
     }
 }

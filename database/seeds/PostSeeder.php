@@ -22,7 +22,7 @@ class PostSeeder extends Seeder
         $category_ids = Category::pluck('id')->toArray();
 
 
-        for($i = 0; $i < 53; $i++) {
+        for ($i = 0; $i < 53; $i++) {
             $post = new Post();
             $post->user_id = 1;
             $post->category_id = Arr::random($category_ids);

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -60,6 +61,7 @@ class PostController extends Controller
 
         $data = $request->all();
         $data['slug'] = Str::slug($request->title, '-');
+        $data['user_id'] = Auth::id();
 
         $post = Post::create($data);
 
